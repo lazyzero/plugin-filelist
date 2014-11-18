@@ -310,6 +310,13 @@ class syntax_plugin_filelist extends DokuWiki_Syntax_Plugin {
                 $renderer->doc .= $this->getLang('lastmodifiedby');
                 $renderer->tableheader_close();
             }
+
+            if ($params['tableshowimagepreview']) {
+                $renderer->tableheader_open();
+                $renderer->doc .= $this->getLang('preview');
+                $renderer->tableheader_close();
+            }
+
         }
 
         foreach ($result['files'] as $file) {
@@ -329,8 +336,8 @@ class syntax_plugin_filelist extends DokuWiki_Syntax_Plugin {
                 $renderer->doc .= strftime($conf['dformat'], $file['mtime']);
                 $renderer->tablecell_close();
             }
-
-	    if ($params['tableshowuser']) {
+            
+            if ($params['tableshowuser']) {
                 $renderer->tablecell_open();
                 $id = $this->_convert_mediapath($file['path']);
                 $revs = getRevisions($id, -1, 1, 8192, true);
@@ -338,6 +345,38 @@ class syntax_plugin_filelist extends DokuWiki_Syntax_Plugin {
                 $renderer->doc .= $revInfo['user'];
                 $renderer->tablecell_close();
             }
+            
+            if ($params['tableshowimagepreview']) {
+                $renderer->tablecell_open();
+			    $x = getimagesize($file['path']);
+				$isImage=FALSE;
+
+			    switch ($x['mime']) {
+				  case "image/gif":
+					 $isImage=TRUE;
+					 break;
+				  case "image/jpeg":
+					 $isImage=TRUE;
+					 break;
+				  case "image/png":
+					 $isImage=TRUE;
+					 break;
+				  default:
+					 break;
+			    }
+				
+				if ($isImage) {
+					if (!$params['direct']) {
+						$imgLink = ml(':'.$this->_convert_mediapath($file['path']));
+					} else {
+						$imgLink = $result['webdir'].substr($file['path'], strlen($result['basedir']));
+					}
+					
+					$renderer->doc .= '<img class="preview" style=" max-height: 25px; max-width: 25px;" src="'.$imgLink.'">';
+				}
+					
+                $renderer->tablecell_close();
+            }            
 
             $renderer->tablerow_close();
         }
