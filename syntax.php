@@ -92,6 +92,7 @@ class syntax_plugin_filelist extends DokuWiki_Syntax_Plugin {
             'tableshowsize' => 0,
             'tableshowdate' => 0,
 	    'tableshowuser' => 0,
+	    'tableshowimagepreview' => 0,
             'direct' => 0,
             'recursive' => 0,
             'titlefile' => '_title.txt',
