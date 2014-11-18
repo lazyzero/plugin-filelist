@@ -91,6 +91,7 @@ class syntax_plugin_filelist extends DokuWiki_Syntax_Plugin {
             'tableheader' => 0,
             'tableshowsize' => 0,
             'tableshowdate' => 0,
+	    'tableshowuser' => 0,
             'direct' => 0,
             'recursive' => 0,
             'titlefile' => '_title.txt',
@@ -304,6 +305,11 @@ class syntax_plugin_filelist extends DokuWiki_Syntax_Plugin {
                 $renderer->tableheader_close();
             }
 
+            if ($params['tableshowuser']) {
+                $renderer->tableheader_open();
+                $renderer->doc .= $this->getLang('lastmodifiedby');
+                $renderer->tableheader_close();
+            }
         }
 
         foreach ($result['files'] as $file) {
@@ -321,6 +327,15 @@ class syntax_plugin_filelist extends DokuWiki_Syntax_Plugin {
             if ($params['tableshowdate']) {
                 $renderer->tablecell_open();
                 $renderer->doc .= strftime($conf['dformat'], $file['mtime']);
+                $renderer->tablecell_close();
+            }
+
+	    if ($params['tableshowuser']) {
+                $renderer->tablecell_open();
+                $id = $this->_convert_mediapath($file['path']);
+                $revs = getRevisions($id, -1, 1, 8192, true);
+                $revInfo = getRevisionInfo($id, $revs[0], 8192, true);
+                $renderer->doc .= $revInfo['user'];
                 $renderer->tablecell_close();
             }
 

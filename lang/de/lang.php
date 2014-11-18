@@ -12,3 +12,4 @@ $lang['filesize'] = 'Dateigröße';
 $lang['lastmodified'] = 'Letzte Änderung';
 $lang['error_nomatch'] = 'Keine Treffer';
 $lang['error_outsidejail'] = 'Zugriff verweigert';
+$lang['lastmodifiedby'] = 'zu letzt geändert von';
