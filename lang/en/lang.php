@@ -12,4 +12,5 @@ $lang['filesize'] = 'Filesize';
 $lang['lastmodified'] = 'Last modified';
 $lang['error_nomatch'] = 'No match';
 $lang['error_outsidejail'] = 'Access denied';
-$lang['lastmodifiedby'] = 'last modified by';
+$lang['lastmodifiedby'] = 'Last modified by';
+$lang['preview'] = 'Preview';
